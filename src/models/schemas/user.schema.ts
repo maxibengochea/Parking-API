@@ -1,6 +1,7 @@
 import { DataType } from "sequelize-typescript"
-import { sequelize } from "./db.config"
+import DatabaseManager from "./db.config"
 import { InferAttributes, InferCreationAttributes, CreationOptional, Model } from "sequelize"
+import { hashPassword } from "../../services/password.service";
 
 //crear el esquema del usuario en la db
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
@@ -29,9 +30,26 @@ User.init(
   role: DataType.STRING
 }, 
 { 
-  sequelize,
-  modelName: 'User' 
+  sequelize: DatabaseManager.sequelizeConnection(),
+  modelName: 'User',
+  tableName: 'Users' 
 })
+
+//sincronizar el modelo en la base de datos y agreagr un administrador
+const sync = async () => {
+  await User.sync({ force: true })
+  console.log('The table for the User model was just (re)created!')
+
+  //crear un usuario administrador
+  await User.create({
+    name: 'admin',
+    password: await hashPassword('admin'),
+    email: 'admin@gmail.com',
+    role: 'administrador'
+  })
+}
+
+sync()
 
 export default User
   
