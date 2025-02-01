@@ -54,7 +54,7 @@ class AuthController {
     const { email, password } = req.body
 
     try {
-      const user = await UserModel.findUser(email)
+      const user = await UserModel.findUser({ email })
       
       //si no encontramos el usuario, no se puede logear
       if (!user)
