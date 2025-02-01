@@ -27,15 +27,16 @@ class AuthController {
 
       //si el usuario ya se encuentra en la base de datos, falla el registro
       if (user)
-        return res.status(401).json({ message: 'Email already in use' })
+        return res.status(401).json({ error: 'Email already in use' })
 
-      await UserModel.addUser(newUser)
-      const token = generateToken(newUser) //generar el 'jwt'
-      res.status(201).json({ token: token })
+      const addedUser = await UserModel.addUser(newUser)
+      const token = generateToken(addedUser) //generar el 'jwt'
+      res.status(201).json({ token })
     }
 
     catch (error: any) {
-      res.status(500).json({ error: error })
+      console.log(error)
+      res.status(500).json({ error })
     }
   }
 
@@ -56,15 +57,18 @@ class AuthController {
         return res.status(401).json({ error: 'User not registred' })
 
       //si encontramos el usuario pero su 'password' hasheado no coincide con el 'password' ingresado
-      if (!await comparePasswords(user.password, password))
+      const comparision = await comparePasswords(password, user.password)
+
+      if (!comparision)
         return res.status(401).json({ error: 'Incorrect password' })
 
       const token = generateToken(user) //generamos el 'jwt'
-      res.json(200).json({ token: token })
+      res.status(200).json({ token })
     }
 
     catch (error: any) {
-      res.status(500).json({ error: error })
+      console.log(error)
+      res.status(500).json({ error })
     }
   }
 }
