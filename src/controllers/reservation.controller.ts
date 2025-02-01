@@ -11,22 +11,19 @@ class ReservationController {
     if (!validationBody.ok)
       return res.status(400).json({ error: validationBody.error })
 
-    const { date, vehicle } = req.body //parseamos los campos del body
+    const { vehicle } = req.body //parseamos los campos del body
     const clientId = res.locals.token.id //obtenemos el id del usuario del token
+    const date = new Date(req.body.date) //parsear la 'date'
 
     try {
       //si hay una reservacion para ese 'date' devolvemos error
-      const reservation = await ReservationModel.findReservation(date)
+      const reservation = await ReservationModel.findReservation({ date })
 
       if (reservation)
         return res.status(401).json({ error: 'Not disponible reservation for the provided date' })
 
       //agregamos la nueva reservacion
-      const newReservation = await ReservationModel.addReservation({ 
-        clientId, 
-        vehicle, 
-        date: new Date(date) 
-      })
+      const newReservation = await ReservationModel.addReservation({ clientId, vehicle, date })
 
       res.status(201).json({ 
         id: newReservation.id,
@@ -45,13 +42,13 @@ class ReservationController {
   //controlador para devolver todas las reservaciones
   static async getAll(req: Request, res: Response): Promise<any> {
     try {
-      //devolver todas las reservaciones del parqueo
-      const reservations = await ReservationModel.getAll()
+      const reservations = await ReservationModel.getAll() //devolver todas las reservaciones del parqueo
+      const status = reservations.length === 0 ? 204 : 200 //manejar el status de la respuesta
 
-      res.status(200).json({ result: reservations.map(reservation => ({
+      res.status(status).json({ result: reservations.map(reservation => ({
         id: reservation.id,
         clientId: reservation.clientId,
-        clientVehicle: reservation.vehicle,
+        vehicle: reservation.vehicle,
         date: reservation.date
       }))})
     }
