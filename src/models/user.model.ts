@@ -6,7 +6,7 @@ class UserModel {
   static async addUser(user: UserType) {
     const { name, email, password, role } = user
 
-    await User.create({
+    return await User.create({
       name,
       email,
       password,
