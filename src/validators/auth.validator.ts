@@ -1,4 +1,3 @@
-import { UserType } from "../types/user.type"
 import { ValidationType } from "../types/validation.type"
 
 interface Body {
