@@ -22,7 +22,11 @@ class ReservationController {
         return res.status(401).json({ error: 'Not disponible reservation for the provided date' })
 
       //agregamos la nueva reservacion
-      const newReservation = await ReservationModel.addReservation({ clientId, vehicle, date })
+      const newReservation = await ReservationModel.addReservation({ 
+        clientId, 
+        vehicle, 
+        date: new Date(date) 
+      })
 
       res.status(201).json({ 
         id: newReservation.id,
@@ -35,6 +39,26 @@ class ReservationController {
     catch (error) {
       console.log(error)
       res.status(500).json({ error })
+    }
+  }
+
+  //controlador para devolver todas las reservaciones
+  static async getAll(req: Request, res: Response): Promise<any> {
+    try {
+      //devolver todas las reservaciones del parqueo
+      const reservations = await ReservationModel.getAll()
+
+      res.status(200).json({ result: reservations.map(reservation => ({
+        id: reservation.id,
+        clientId: reservation.clientId,
+        clientVehicle: reservation.vehicle,
+        date: reservation.date
+      }))})
+    }
+
+    catch (error) {
+      console.log(error)
+      res.status(500).json({ error })     
     }
   }
 }
