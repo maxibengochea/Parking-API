@@ -1,8 +1,16 @@
 import { Sequelize } from "sequelize"
-import { DB_NAME, DB_USER, DB_PASSWORD } from "../../config"
+import { POSTGRES_NAME, POSTGRES_USER, POSTGRES_PASSWORD } from "../../config"
 
-//iniciar la conexion con postgres
-export const sequelize = new Sequelize(DB_NAME!, DB_USER!, DB_PASSWORD, {
-  host: 'localhost',
-  dialect: 'postgres'
-}) 
+class DatabaseManager {
+  //iniciar la conexion con sequilize
+  static sequelizeConnection() {
+    const sequelize = new Sequelize(POSTGRES_NAME!, POSTGRES_USER!, POSTGRES_PASSWORD, {
+      host: 'localhost',
+      dialect: 'postgres'
+    }) 
+
+    return sequelize
+  }
+}
+
+export default DatabaseManager
