@@ -11,6 +11,11 @@ class ReservationModel {
   static async findReservation(date: Date) {
     return await Reservation.findOne({ where: { date } })
   }
+
+  //encontrar todas las reservaciones
+  static async getAll() {
+    return await Reservation.findAll()
+  }
 }
 
 export default ReservationModel
