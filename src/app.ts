@@ -1,6 +1,7 @@
 import  express  from "express"
 import authRouter from "./routes/auth.routes"
 import reservationRouter from "./routes/reservation.routes"
+import userRouter from "./routes/user.routes"
 
 //iniciar la app
 const app = express()
@@ -10,6 +11,7 @@ app.use(express.json())
 
 //usar las rutas
 app.use('/', authRouter)
-app.use('/reservation', reservationRouter)
+app.use('/reservations', reservationRouter)
+app.use('/users', userRouter)
 
 export default app
