@@ -5,10 +5,10 @@ import { hashPassword } from "../../services/password.service";
 
 //crear el esquema del usuario en la db
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
-  declare id: CreationOptional<number>;
-  declare name: string;
-  declare email: string;
-  declare password: string;
+  declare id: CreationOptional<number>
+  declare name: string
+  declare email: string
+  declare password: string
   declare role: CreationOptional<'cliente' | 'administrador' | 'empleado'>
 } 
 
@@ -52,4 +52,3 @@ const sync = async () => {
 sync()
 
 export default User
-  

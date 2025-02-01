@@ -9,5 +9,4 @@ const authRouter = Router()
 authRouter.post('/register', UserMiddleware.authenticatedToken, UserMiddleware.adminPermision, AuthController.register)
 authRouter.post('/login', AuthController.login)
 
-//devolver el 'router'
 export default authRouter

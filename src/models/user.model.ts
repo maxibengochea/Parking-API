@@ -4,14 +4,7 @@ import User from "./schemas/user.schema"
 class UserModel {
   //metodo para agregar un usuario a la db
   static async addUser(user: UserType) {
-    const { name, email, password, role } = user
-
-    return await User.create({
-      name,
-      email,
-      password,
-      role
-    })
+    return await User.create(user)
   }
 
   //metodo para buscar un usuario por su email

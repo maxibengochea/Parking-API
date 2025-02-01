@@ -16,7 +16,7 @@ class UserMiddleware {
     //si el token no es valido o expiro, el usuario no tiene permisos
     jwt.verify(token, SECRET_TOKEN!, (error, decoded) => {
       if (error)
-        return res.status(401).json({ error: 'Token invalido' })
+        return res.status(401).json({ error: 'Invalid token' })
 
       //si el token es valido, lo guardamos en el objeto 'res' para su posterior manejo
       res.locals.token = decoded
@@ -30,7 +30,7 @@ class UserMiddleware {
     const { role } = res.locals.token
 
     if (role != 'administrador')
-      return res.status(401).json({ error: 'Unauthorized' })
+      return res.status(401).json({ error: 'Unauthorized: Only admins has access to this resource' })
 
     next()
   }
@@ -40,7 +40,7 @@ class UserMiddleware {
     const { role } = res.locals.token
 
     if (role == 'cliente')
-      return res.status(401).json({ error: 'Unauthorized' })
+      return res.status(401).json({ error: 'Unauthorized: Clients have not access to this resource' })
 
     next()
   }

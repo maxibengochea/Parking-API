@@ -8,8 +8,10 @@ class AuthController {
   //controlador de la ruta 'register'
   static async register(req: Request, res: Response): Promise<any> {
     //si el 'body' no es valido devolvemos el error
-    if (!AuthValidator.register(req.body))
-      return res.status(400).json({ error: 'Invalid body' })
+    const validationBody = AuthValidator.validRegister(req.body)
+    
+    if (!validationBody.ok)
+      return res.status(400).json({ error: validationBody.error })
 
     const { name, email, password, role} = req.body //parsear los campos del 'body'
     const hashedPassword = await hashPassword(password) //crear la 'password' hasheada
@@ -23,7 +25,7 @@ class AuthController {
     }
 
     try {
-      const user = await UserModel.findUser(newUser.email)
+      const user = await UserModel.findUser(email)
 
       //si el usuario ya se encuentra en la base de datos, falla el registro
       if (user)
@@ -43,8 +45,10 @@ class AuthController {
   //controlador de la ruta 'login'
   static async login(req: Request, res: Response): Promise<any> {
     //si el 'body' no es valido devolvemos el error
-    if (!AuthValidator.login(req.body))
-      return res.status(400).json({ error: 'Invalid body' })
+    const validationBody = AuthValidator.validLogin(req.body)
+    
+    if (!validationBody.ok)
+      return res.status(400).json({ error: validationBody.error })
 
     //parsear los campos del body
     const { email, password } = req.body

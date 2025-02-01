@@ -4,12 +4,10 @@ import jwt from "jsonwebtoken"
 
 //generar el 'jwt'
 export const generateToken = (user: UserType) => {
-  const { id, email, role } = user
-
   const tokenUser = {
-    id,
-    email,
-    role
+    id: user.id,
+    email: user.email,
+    role: user.role
   }
 
   return jwt.sign(tokenUser, SECRET_TOKEN!, {expiresIn: '1h'})
