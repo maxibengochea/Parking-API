@@ -3,7 +3,7 @@ import { SALT_ROUNDS } from "../config"
 
 //hashear la 'password' con bcrypt
 export const hashPassword = async (password: string) : Promise<string> => {
-  return await bcrypt.hash(password, SALT_ROUNDS!)
+  return await bcrypt.hash(password, Number(SALT_ROUNDS!))
 }
 
 //comparar una 'password' con un hash de bcrypt
