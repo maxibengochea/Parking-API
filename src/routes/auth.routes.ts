@@ -6,8 +6,8 @@ import AuthController from '../controllers/auth.controller'
 const authRouter = Router()
 
 //manejar las rutas
-authRouter.post('/', UserMiddleware.authenticatedToken, UserMiddleware.adminPermision, AuthController.register)
-authRouter.get('/',  UserMiddleware.authenticatedToken, UserMiddleware.adminPermision, AuthController.login)
+authRouter.post('/register', UserMiddleware.authenticatedToken, UserMiddleware.adminPermision, AuthController.register)
+authRouter.post('/login', AuthController.login)
 
 //devolver el 'router'
 export default authRouter
