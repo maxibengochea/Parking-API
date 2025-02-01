@@ -1,4 +1,4 @@
-export class AuthValidator {
+class AuthValidator {
   //validar el 'body' en el 'register'
   static register(body: any) {
     //si no hay 'body', returna false
@@ -15,6 +15,7 @@ export class AuthValidator {
     return (name !== undefined) && (email !== undefined) && (password !== undefined) && (role !== undefined)
   }
 
+  //validar el body en el 'login'
   static login(body: any) {
     //si no hay 'body', returna false
     if (!body)
