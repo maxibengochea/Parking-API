@@ -1,1 +1,1 @@
-### Parking APIRest con Node y Typescript usando Postgres y Mongo
+### APIRest de un parqueo con Node y Typescript usando Postgres y Mongo
