@@ -1,25 +1,14 @@
 import { Request, Response } from "express"
-import UserValidator from "../validators/user.validator"
 import UserModel from "../models/user.model"
 
 class UserController {
   //controlador para manejar la modificacion de los campos de un usuario
   static async modifyUser(req: Request, res: Response): Promise<any> {
-    //verificar la 'request'
-    const reqValidation = UserValidator.validModify(req)
-
-    if (!reqValidation.ok)
-      return res.status(401).json({ error: reqValidation.error })
-    
-    const { id } = req.params //extraer el 'id' de la 'request'
     const { name, email } = req.body //parsear los campos del 'body'
 
     try {
       //buscamos el usuario en la base de datos
-      const user = await UserModel.findUser({ id })
-
-      if (!user)
-        return res.status(404).json({ error: 'Not found' })
+      const user = res.locals.user
 
       //actualizar el usuario en la base de datos
       user.name= name ?? user.name,

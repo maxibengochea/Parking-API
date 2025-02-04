@@ -7,6 +7,6 @@ const userRouter = Router()
 
 //manejar las rutas
 userRouter.get('/', UserMiddleware.authenticatedToken, UserMiddleware.adminPermision, UserController.getAll)
-userRouter.put('/:id', UserMiddleware.authenticatedToken, UserMiddleware.adminPermision, UserController.modifyUser)
+userRouter.put('/:id', UserMiddleware.authenticatedToken, UserMiddleware.adminPermision, UserMiddleware.getUser, UserController.modifyUser)
 
 export default userRouter
