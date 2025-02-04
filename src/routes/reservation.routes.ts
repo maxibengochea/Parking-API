@@ -7,7 +7,7 @@ import UserController from "../controllers/user.controller"
 const reservationRouter = Router()
 
 //manejar las rutas
-reservationRouter.post('/add', UserMiddleware.authenticatedToken, ReservationController.addReservation)
+reservationRouter.post('/', UserMiddleware.authenticatedToken, ReservationController.addReservation)
 reservationRouter.get('/', UserMiddleware.authenticatedToken, UserMiddleware.employeePermision, ReservationController.getAll)
 
 export default reservationRouter
