@@ -1,5 +1,5 @@
 import { DataType } from "sequelize-typescript"
-import DatabaseManager from "./db.config"
+import DatabaseManager from "../db.config"
 import { InferAttributes, InferCreationAttributes, CreationOptional, Model } from "sequelize"
 
 //crear el esquema de las reservaciones en la db
