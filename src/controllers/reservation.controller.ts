@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import ReservationValidator from "../validators/reservation.validator"
 import ReservationModel from "../models/reservation.model"
+import LogsModel from "../models/logs.model"
 
 class ReservationController {
   //controlador para agregar una reservacion
@@ -13,7 +14,7 @@ class ReservationController {
 
     const { vehicle } = req.body //parseamos los campos del body
     const clientId = res.locals.token.id //obtenemos el id del usuario del token
-    const date = new Date(req.body.date) //parsear la 'date'
+    const date = new Date(req.body.date) //parsear la date
 
     try {
       //si hay una reservacion para ese 'date' devolvemos error
@@ -23,7 +24,13 @@ class ReservationController {
         return res.status(401).json({ error: 'Not disponible reservation for the provided date' })
 
       //agregamos la nueva reservacion
-      const newReservation = await ReservationModel.addReservation({ clientId, vehicle, date })
+      const newReservation = await ReservationModel.addReservation({ clientId, vehicle, date }) 
+      
+      //agregamos el 'log'
+      await LogsModel.addLog({
+        userId: clientId,
+        log: `The user saved a reservation for ${date}`
+      })
 
       res.status(201).json({ 
         id: newReservation.id,
