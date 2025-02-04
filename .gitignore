@@ -1,3 +1,4 @@
 .env
+*.pdf
 mongo
 node_modules
